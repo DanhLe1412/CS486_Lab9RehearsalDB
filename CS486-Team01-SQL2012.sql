@@ -1,0 +1,17 @@
+-- CS486-Team01
+
+CREATE DATABASE CS486_Team01_DB
+GO 
+
+USE CS486_Team01_DB
+GO 
+
+CREATE TABLE Region (
+    [Name] NVARCHAR(100),
+    PRIMARY KEY ([Name])
+)
+
+CREATE TABLE [Type](
+    
+)
+
