@@ -10,3 +10,8 @@ CREATE TABLE Region (
     [Name] NVARCHAR(100),
     PRIMARY KEY ([Name])
 )
+
+CREATE TABLE [Type](
+    
+)
+
