@@ -3,54 +3,82 @@
 CREATE DATABASE CS486_Team01_DB
 GO 
 
-/*
-USE MASTER
-DROP DATABASE CS486_Team01_DB
-*/
-
 USE CS486_Team01_DB
 GO 
 
-CREATE TABLE Region (
-    [Name] NVARCHAR(100),
-
-    PRIMARY KEY ([Name])
+create table Song (
+SongID int not null,
+Name nvarchar(100) not null,
+ReleaseTime datetime not null,
+NumOfListen int not null default 0,
+primary key (SongID)
 )
 
-CREATE TABLE [Type](
-    [Name] NVARCHAR(100) NOT NULL,
-	Region NVARCHAR(100) NOT NULL,
-
-	PRIMARY KEY([Name], Region)
+create table Artist (
+ArtistID int not null,
+Name nvarchar(100) not null,
+primary key(ArtistID)
 )
 
-CREATE TABLE Song(
-	SongID INT NOT NULL,
-	[Name] NVARCHAR(100) NOT NULL,
-	ReleaseTime DATETIME NOT NULL DEFAULT GETDATE(),
-	NumOfListen INT NOT NULL DEFAULT 0,
-
-	PRIMARY KEY(SongID)
+create table ArtistSong(
+ArtistID int not null,
+SongID int not null,
+primary key(ArtistID, SongID)
 )
 
-CREATE TABLE SongToType(
-	SongID INT NOT NULL,
-	[Type] NVARCHAR(100) NOT NULL,
+create table Region(
+RegionID nvarchar(100) not null,
+primary key(RegionID)
 
-	PRIMARY KEY(SongID, [Type])
 )
 
-CREATE TABLE Artist(
-	ArtistID INT NOT NULL,
-	[Name] NVARCHAR(100) NOT NULL,
-
-	 PRIMARY KEY(ArtistID)
+create table TypeRegion(
+TypeID nvarchar(100) not null,
+RegionID nvarchar(100) not null,
+primary key (TypeID, RegionID)
 )
 
-CREATE TABLE ArtistToSong(
-	SongID INT NOT NULL,
-	ArtistID INT NOT NULL,
-
-	PRIMARY KEY(SongID, ArtistID)
+create table SongToType(
+SongID int not null,
+TypeID nvarchar(100) not null,
+RegionID nvarchar(100) not null,
+primary key(SongID, TypeID, RegionID)
 )
 
+go
+Alter table ArtistSong
+add constraint fk_to_song
+foreign key(SongID)
+references Song(SongID);
+
+go
+Alter table ArtistSong
+add constraint fk_to_artist
+foreign key(ArtistID)
+references Artist(ArtistID);
+
+go
+Alter table TypeRegion
+add constraint fk_type_region
+foreign key(RegionID)
+references Region(RegionID);
+
+go
+Alter table SongToType
+add constraint fk_songToType_Type
+foreign key(TypeID, RegionID)
+references TypeRegion(TypeID, RegionID);
+
+go
+Alter table SongToType
+add constraint fk_songToType_Song
+foreign key(SongID)
+references Song(SongID);
+
+go
+
+
+GO
+USE MASTER
+GO
+DROP database CS486_Team01_DB
