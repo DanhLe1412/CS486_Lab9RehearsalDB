@@ -53,3 +53,4 @@ CREATE TABLE ArtistToSong(
 
 	PRIMARY KEY(SongID, ArtistID)
 )
+
